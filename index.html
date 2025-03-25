@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TokenHSI</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/robot-svgrepo-com.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://wenjiawang0312.github.io/projects/sims/">
+            SIMS
+          </a>
+          <a class="navbar-item" href="https://liangpan99.github.io/InterScene/">
+            InterScene
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title"><em>TokenHSI</em></h1>
+          <h1 class="title is-4 publication-title">Unified Synthesis of Physical Human-Scene Interactions through Task Tokenization</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://liangpan99.github.io/">Liang Pan</a><sup>1,2</sup>,</span>
+            &nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://zeshiyang.github.io/">Zeshi Yang</a><sup>3</sup>,</span>
+            &nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://frank-zy-dou.github.io/">Zhiyang Dou</a><sup>2</sup>,
+            </span>
+            &nbsp;&nbsp;          
+            <span class="author-block">
+              <a href="https://wenjiawang0312.github.io/">Wenjia Wang</a><sup>2</sup>,
+            </span>
+            &nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://www.buzhenhuang.com/about/">Buzhen Huang</a><sup>4</sup>,
+            </span>
+            <br>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=KNWTvgEAAAAJ&hl=en">Bo Dai</a><sup>2,5</sup>,
+            </span>
+            &nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://i.cs.hku.hk/~taku/">Taku Komura</a><sup>2</sup>,
+            </span>
+            &nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=GStTsxAAAAAJ&hl=en&oi=ao">Jingbo Wang</a><sup>1,†</sup>
+            </span>
+          </div>
+
+
+          <div class="is-size-10 publication-authors">
+            <span class="author-block"><sup>1</sup>Shanghai AI Laboratory,</span>
+            &nbsp;&nbsp;
+            <span class="author-block"><sup>2</sup>The University of Hong Kong,</span>
+            &nbsp;&nbsp;
+            <span class="author-block"><sup>3</sup>Independent Researcher,</span>
+            <br>
+            <span class="author-block"><sup>4</sup>Southeast University,</span>
+            &nbsp;&nbsp;
+            <span class="author-block"><sup>5</sup>Feeling AI</span>
+          </div>
+
+          <p style="font-size: 9pt;">(†: corresponding author) </p>
+
+          <div style="font-size: 1.5em; margin-top: 10px; font-weight: bold; text-align: center;">
+            CVPR 2025
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://liangpan99.github.io/TokenHSI"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://liangpan99.github.io/TokenHSI"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/liangpan99/TokenHSI"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming Soon)</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" width="100%" alt="Your Image" style="display: block; margin: auto;">
+      <h2 class="subtitle has-text-centered">
+        Introducing TokenHSI, 
+        a unified model that enables physics-based characters to perform diverse human-scene interaction tasks.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          Synthesizing diverse and physically plausible Human-Scene Interactions (HSI) is pivotal for both computer animation and embodied AI. 
+          Despite encouraging progress, current methods mainly focus on developing separate controllers, each specialized for a specific interaction task. 
+          This significantly hinders the ability to tackle a wide variety of challenging HSI tasks that require the integration of multiple skills, e.g., sitting down while carrying an object. 
+          To address this issue, we present TokenHSI, a single, unified transformer-based policy capable of multi-skill unification and flexible adaptation. 
+          The key insight is to model the humanoid proprioception as a separate shared token and combine it with distinct task tokens via a masking mechanism. 
+          Such a unified policy enables effective knowledge sharing across skills, thereby facilitating the multi-task training. 
+          Moreover, our policy architecture supports variable length inputs, enabling flexible adaptation of learned skills to new scenarios. 
+          By training additional task tokenizers, we can not only modify the geometries of interaction targets but also coordinate multiple skills to address complex tasks. 
+          The experiments demonstrate that our approach can significantly improve versatility, adaptability, and extensibility in various HSI tasks.
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{pan2025tokenhsi,
+  author    = {Pan, Liang and Yang, Zeshi and Dou, Zhiyang and Wang, Wenjia and Huang, Buzhen and Dai, Bo and Komura, Taku and Wang, Jingbo},
+  title     = {TokenHSI: Unified Synthesis of Physical Human-Scene Interactions through Task Tokenization},
+  journal   = {CVPR},
+  year      = {2025},
+}</code></pre>
+  </div>
+</section>
+
+
+</body>
+</html>
