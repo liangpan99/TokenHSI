@@ -116,7 +116,6 @@
             </span>
           </div>
 
-
           <div class="is-size-10 publication-authors">
             <span class="author-block"><sup>1</sup>Shanghai AI Laboratory,</span>
             &nbsp;&nbsp;
@@ -180,6 +179,7 @@
   <div class="container is-max-desktop">
     <div class="hero-body">
       <img src="static/images/teaser.png" width="100%" alt="Your Image" style="display: block; margin: auto;">
+      <br>
       <h2 class="subtitle has-text-centered">
         Introducing TokenHSI, 
         a unified model that enables physics-based characters to perform diverse human-scene interaction tasks.
@@ -188,9 +188,12 @@
   </div>
 </section>
 
-<section class="section">
+
+<section class="hero is-light is-small">
   <div class="container is-max-desktop">
     <!-- Abstract. -->
+    <br>
+    <br>
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Abstract</h2>
@@ -208,18 +211,286 @@
       </div>
     </div>
     <!--/ Abstract. -->
+    <br>
+  </div>
+</section>
 
-    <!-- Paper video. -->
-    <!-- <div class="columns is-centered has-text-centered">
+<section class="hero is-small">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <br>
+    <br>
+    <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <h2 class="title is-3">Pipeline</h2>
+        <img src="static/images/pipeline.jpg" width="100%" alt="Your Image" style="display: block; margin: auto;">
+        <br>
+        <h2 class="subtitle has-text-centered">
+          TokenHSI consists of two stages: <br> (left) foundational skill learning and (right) policy adaptation.
+        </h2>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+    <br>
+  </div>
+</section>
+
+
+<section class="hero is-small is-light">
+
+  <div class="container is-max-desktop">
+    <br>
+    <div class="columns is-centered has-text-centered">
+      <h2 class="title is-3"> <span style="color:#5e7dbd";>Foundational HSI Skills</span></h2>
+    </div>
+    <br>
+    <div class="columns is-centered has-text-centered">
+      <h2 class="title is-5"><i>TokenHSI excels at seamlessly unifying multiple foundational HSI skills within a single transformer.</i></h2>
+    </div> 
+
+    
+    <div class="columns is-centered">
+
+      <div class="column">
+        <div class="content">
+          <br>
+          <div class="columns is-centered has-text-centered">
+            <h2 class="title is-5"> Path-following</h2>
+          </div>
+          <div class="videobox">
+            <video poster="" id="follow" autoplay controls muted loop height="100%">
+              <source src="./static/videos/foundation_hsi_skills/follow.mp4" type="video/mp4">
+            </video>
+          </div>
         </div>
       </div>
-    </div> -->
-    <!--/ Paper video. -->
+  
+      <div class="column">
+        <div class="content">
+          <br>
+          <div class="columns is-centered has-text-centered">
+            <h2 class="title is-5"> Sitting</h2>
+          </div>
+          <div class="videobox">
+            <video poster="" id="sit" autoplay controls muted loop height="100%">
+              <source src="./static/videos/foundation_hsi_skills/sit.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="columns is-centered">
+
+      <div class="column">
+        <div class="content">
+          <div class="columns is-centered has-text-centered">
+            <h2 class="title is-5"> Climbing</h2>
+          </div>
+          <div class="videobox">
+            <video poster="" id="climb" autoplay controls muted loop height="100%">
+              <source src="./static/videos/foundation_hsi_skills/climb.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+  
+      <div class="column">
+        <div class="content">
+          <div class="columns is-centered has-text-centered">
+            <h2 class="title is-5"> Carrying</h2>
+          </div>
+          <div class="videobox">
+            <video poster="" id="carry" autoplay controls muted loop height="100%">
+              <source src="./static/videos/foundation_hsi_skills/carry.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  
+    <br>
+  </div>
+
+</section>
+
+<!---           Gallery       -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <br>
+    <div class="columns is-centered has-text-centered">
+      <h2 class="title is-3"> <span style="color:#069b1c" ;="">Challenging New Tasks </span></h2>
+    </div>
+    <br>
+    <div class="columns is-centered has-text-centered">
+      <h2 class="title is-5"><i>The learned skills can be flexibly and efficiently adapted to challenging new tasks through our transformer-based policy adaptation.</i></h2>
+    </div>    
+
+
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <h2 class="title is-5">(1) Skill Composition</h2>
+      </div> 
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/skill_composition/traj+carry.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/skill_composition/sit+carry_1.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/skill_composition/sit+carry_2.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/skill_composition/sit+carry_3.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-blueshirt">
+            <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/skill_composition/climb+carry_1.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-mask">
+            <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/skill_composition/climb+carry_2.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-coffee">
+            <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/skill_composition/climb+carry_3.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <h2 class="title is-5">(2) Object Shape Variation</h2>
+      </div> 
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/object_shape_variation/armchair_1.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/object_shape_variation/armchair_2.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/object_shape_variation/armchair_3.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/object_shape_variation/table_1.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-blueshirt">
+            <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/object_shape_variation/table_2.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-mask">
+            <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/challenging_new_tasks/object_shape_variation/table_3.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <h2 class="title is-5">(3) Terrain Shape Variation</h2>
+      </div> 
+      <div class="container">
+        <!-- First row -->
+        <div class="columns is-centered">
+          <div class="column">
+            <div class="content has-text-centered">
+              <div class="videobox">
+                <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+                  <source src="./static/videos/challenging_new_tasks/terrain_shape_variation/traj.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+  
+          <div class="column">
+            <div class="content has-text-centered">
+              <div class="videobox">
+                <video poster="" id="sit" autoplay controls muted loop height="100%">
+                  <source src="./static/videos/challenging_new_tasks/terrain_shape_variation/carry_1.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="content has-text-centered">
+              <div class="videobox">
+                <video poster="" id="sit" autoplay controls muted loop height="100%">
+                  <source src="./static/videos/challenging_new_tasks/terrain_shape_variation/carry_2.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <h2 class="title is-5">(4) Long-horizon Task Completion in A Complex Dynamic Environment</h2>
+      </div> 
+      <div class="container is-max-desktop">
+        <!-- First row -->
+        <div class="columns is-centered">
+          <div class="column">
+            <div class="content has-text-centered">
+              <div class="videobox">
+                <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+                  <source src="./static/videos/challenging_new_tasks/longterm_demo_isaacgym.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </section>
 
