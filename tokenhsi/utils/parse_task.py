@@ -40,6 +40,10 @@ from env.tasks.basic_interaction_skills.humanoid_climb import HumanoidClimb
 from tokenhsi.env.tasks.multi_task.humanoid_traj_sit_carry_climb import HumanoidTrajSitCarryClimb
 #########
 
+######### policy adaptation
+from tokenhsi.env.tasks.longterm_task_completion.humanoid_longterm_4basicskills import HumanoidLongTerm4BasicSkills
+#########
+
 from env.tasks.vec_task_wrappers import VecTaskPythonWrapper
 
 from isaacgym import rlgpu

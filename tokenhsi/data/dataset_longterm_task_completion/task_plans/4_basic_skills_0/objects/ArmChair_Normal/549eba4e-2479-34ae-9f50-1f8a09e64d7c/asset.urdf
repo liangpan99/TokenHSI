@@ -1,0 +1,21 @@
+<?xml version="0.0"?>
+	<robot name="object">
+		<link name="object">
+			<visual>
+				<origin xyz="0 0 0"/>
+				<geometry>
+					<mesh filename="./geom/mesh.obj"/>
+				</geometry>
+			</visual>
+			<inertial>
+				<mass value="15.000"/>
+			</inertial>
+			<collision>
+				<origin xyz="0 0 0"/>
+				<geometry>
+					<mesh filename="./geom/mesh.obj"/>
+				</geometry>
+			</collision>
+		</link>
+
+	</robot>

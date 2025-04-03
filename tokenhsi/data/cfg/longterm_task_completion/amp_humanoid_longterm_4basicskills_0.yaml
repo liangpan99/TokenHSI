@@ -1,0 +1,138 @@
+# if given, will override the device setting in gym. 
+env: 
+  numEnvs: 4096
+  envSpacing: 5
+  episodeLength: 1200 # 40s
+  isFlagrun: False
+  enableDebugVis: False
+  
+  pdControl: True
+  powerScale: 1.0
+  controlFrequencyInv: 2 # 30 Hz
+  stateInit: "Default"
+  hybridInitProb: 0.5
+  numAMPObsSteps: 10
+
+  localRootObs: True # amp disc obs
+  localRootObsPolicy: False # policy obs
+  rootHeightObs: False # amp disc obs
+  rootHeightObsPolicy: False # policy obs
+  keyBodies: ["right_hand", "left_hand", "right_foot", "left_foot"]
+  contactBodies: ["right_foot", "left_foot"]
+  terminationHeight: 0.15
+  enableEarlyTermination: True
+
+  enableSelfCollisionDetection: True
+  enableTrackInitState: False
+  
+  skill: [
+    "loco", 
+    "loco_sit", "sit",
+    "loco_carry", "omomo", "pickUp", "carryWith", "putDown", 
+    "loco_climb", "climb", "climbNoRSI"
+  ]
+  skillDiscProb: [
+    0.1,
+    0.1, 0.2,
+    0.1, 0.1, 0.05, 0.0, 0.05,
+    0.1, 0.1, 0.1,
+  ]
+  commonSkill: ""
+  enableTaskSpecificDisc: True
+
+  # multi tasks
+  enableTaskObs: True
+  enableTaskMaskObs: True
+  enableApplyMaskOnTaskObs: True
+
+  supportedTasks: ["traj", "sit", "carry", "climb"]
+
+  enableIET: True # only for the last subtask
+  maxTransitionSteps: 60 # training
+  maxTransitionStepsDemo: 20 # testing
+  maxIETSteps: 60
+  successThreshold: 0.3
+
+  enableDynObjBUGReset: True
+  enableDynObjFallTermination: False
+  enableDynObjUpfacingTermination: False
+  enableDynObjUpfacingRwd: True
+  enableClimbHumanFallTermination: True
+
+  heightmap:
+
+    use: True
+
+    localHeightObs: True
+
+    # configs for rendering height map of the dynamic scene
+    FoVSpacing: 1.0
+    dim: 128
+    camHeight: 10.0
+    batch_size: 4096
+
+    # build height sensors centered at the humanoid root joint
+    cubeHeightMapSideLength: 2.0
+    cubeHeightMapSideNumPoints: 25 # interval 0.1
+    vizHeightMap: True # when headless, this will not work
+
+  traj:
+    numTrajSamples: 10
+    trajSampleTimestep: 0.5 # 10 Hz
+    speedMin: 1.4
+    speedMax: 1.5
+    accelMax: 2.0
+    sharpTurnProb: 0.02
+    sharpTurnAngle: 1.57
+    failDist: 4.0
+
+    enableExtendedTraj: True #####
+    extendDist: 0.5
+    
+    skill: ["loco"]
+  
+  sit:
+    skill: ["loco_sit", "sit"]
+
+  climb:
+    skill: ["loco_climb", "climb", "climbNoRSI"]
+
+  carry:
+    onlyVelReward: True
+    onlyHeightHandHeldReward: True
+
+    box_vel_penalty: False # to avoid stiff grasping
+    box_vel_pen_coeff: 1.0
+    box_vel_pen_threshold: 1.5
+
+    skill: ["loco_carry", "pickUp", "carryWith", "putDown", "omomo"]
+
+  # power reward
+  power_reward: True
+  power_coefficient: 0.0005
+
+  asset:
+    assetRoot: "tokenhsi/data/assets"
+    assetFileName: "mjcf/phys_humanoid_v3.xml"
+
+  plane:
+    staticFriction: 1.0
+    dynamicFriction: 1.0
+    restitution: 0.0
+
+sim:
+  substeps: 2
+  physx:
+    num_threads: 4
+    solver_type: 1  # 0: pgs, 1: tgs
+    num_position_iterations: 4
+    num_velocity_iterations: 0
+    contact_offset: 0.02
+    rest_offset: 0.0
+    bounce_threshold_velocity: 0.2
+    max_depenetration_velocity: 10.0
+    default_buffer_size_multiplier: 10.0
+
+  flex:
+    num_inner_iterations: 10
+    warm_start: 0.25

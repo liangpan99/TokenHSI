@@ -1,0 +1,60 @@
+scene:
+  - name: box_to_carry
+    static: False
+    category: Box
+    model_id: box_length_0-50_0-50_0-70
+    pos3d: [4.5, -4.0, 0.35]
+    z_rot_angle: 0.0
+   
+  - name: chair_to_sit
+    static: True
+    category: ArmChair_Normal
+    model_id: 549eba4e-2479-34ae-9f50-1f8a09e64d7c
+    pos3d: [0, 0, 1.46]
+    z_rot_angle: -1.57
+
+  - name: platform
+    static: True
+    category: Obstacle
+    model_id: box_length_5-00_3-00_1-00
+    pos3d: [0, 0, 0.5]
+    z_rot_angle: 0
+   
+  - name: wall
+    static: True
+    category: Obstacle
+    model_id: box_length_0-30_5-00_3-00
+    pos3d: [6, -3.25, 1.5]
+    z_rot_angle: 0
+    
+  - name: wall
+    static: True
+    category: Obstacle
+    model_id: box_length_0-30_5-00_3-00
+    pos3d: [6, 3.25, 1.5]
+    z_rot_angle: 0
+
+traj:
+  0:
+    - [10.0, 4.0]
+    - [10.0, 2.0]
+    - [7.0, 0.0]
+    - [5.0, 0.0]
+    - [4.0, -1.0]
+  
+tar_pos:
+  - [0, -1.8, 0.35]
+
+humanoid_init_pos2d: [10.0, 4.0]
+humanoid_init_rot_randomize: True
+
+task_plan: ["traj", "carry", "climb", "sit"]
+tar_object: [0, 0, 0, 1]
+tar_traj: [0, 0, 0, 0,]
+sample_target_from:
+  - "traj_0"
+  - "tarpos_0"
+  - "scene_0" # box_to_carry # For climb and sit, we get target information from the corresponding target object
+  - "scene_1" # chair_to_sit
+
+# Note: all positions are in world coordinate!

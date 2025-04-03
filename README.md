@@ -51,6 +51,7 @@ Introducing TokenHSI, a unified model that enables physics-based characters to p
 </div> -->
 
 ## 🔥 News  
+- **[2025-04-03]** Released long-horizon task completion with a pre-trained model.
 - **[2025-04-01]** We just updated the Getting Started section. You can play TokenHSI now!
 - **[2025-03-31]** We've released the codebase and checkpoint for the foundational skill learning part.
 
@@ -58,7 +59,7 @@ Introducing TokenHSI, a unified model that enables physics-based characters to p
 - [x] Release foundational skill learning 
 - [ ] Release policy adaptation - skill composition  
 - [ ] Release policy adaptation - object/terrain shape variation
-- [ ] Release policy adaptation - long-horizon task completion
+- [x] Release policy adaptation - long-horizon task completion
 
 ## 📖 Getting Started
 
@@ -182,7 +183,7 @@ Download checkpoints from [Huggingface](https://huggingface.co/lianganimation/To
 * TokenHSI's unified transformer policy
 
   * Foundational Skill Learning
-  
+
       ```
       # test
       sh tokenhsi/scripts/tokenhsi/stage1_test.sh
@@ -205,6 +206,15 @@ Download checkpoints from [Huggingface](https://huggingface.co/lianganimation/To
   * Policy Adaptation - Terrain Shape Variation
 
   * Policy Adaptation - Long-horizon Task Completion
+
+      ```
+      # test
+      sh tokenhsi/scripts/tokenhsi/stage2_longterm_test.sh
+      # eval
+      sh tokenhsi/scripts/tokenhsi/stage2_longterm_eval.sh
+      # train
+      sh tokenhsi/scripts/tokenhsi/stage2_longterm_train.sh
+      ```
 
 ### Viewer Shortcuts
 

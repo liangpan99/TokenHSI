@@ -47,6 +47,7 @@ from learning import amp_models
 from learning import amp_network_builder
 
 from learning.transformer import amp_network_builder_transformer
+from learning.transformer import amp_network_builder_transformer_longterm
 
 from learning.transformer import trans_agent
 from learning.transformer import trans_players
@@ -183,6 +184,7 @@ def build_alg_runner(algo_observer):
     runner.algo_factory.register_builder('trans', lambda **kwargs : trans_agent.TransAgent(**kwargs))
     runner.player_factory.register_builder('trans', lambda **kwargs : trans_players.TransPlayerContinuous(**kwargs))
     runner.model_builder.network_factory.register_builder('amp_transformer_multi_task', lambda **kwargs : amp_network_builder_transformer.AMPTransformerMultiTaskBuilder())
+    runner.model_builder.network_factory.register_builder('amp_transformer_multi_task_longterm', lambda **kwargs : amp_network_builder_transformer_longterm.AMPTransformerMultiTaskLongTermTaskCompletionBuilder())
 
     return runner
 

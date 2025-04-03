@@ -12,4 +12,4 @@ python ./tokenhsi/run.py --task HumanoidTrajSitCarryClimb \
     --headless \
     --eval \
     --eval_task $target_task \
-    --seed 0 \
+    --seed 0

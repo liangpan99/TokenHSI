@@ -1,0 +1,115 @@
+params:
+  seed: -1
+
+  algo:
+    name: trans
+
+  model:
+    name: amp
+
+  network:
+    name: amp_transformer_multi_task_longterm
+    separate: True
+
+    ##################################################
+    # configs for creating high-level controller
+    network_structure_id: 2
+
+    transformer:
+      num_features: 64
+      tokenizer_units: [256, 128]
+      num_layers: 4
+      layer_num_heads: 2
+      layer_dim_feedforward: 512
+      use_pos_embed: False
+      extra_mlp_units: [1024, 512]
+    ##################################################
+
+    ### configs for achieving skill adaptation
+    use_internal_adaptation: True
+    apply_adapter_on_actions: False
+    plugin_units: [1024, 512] # same as extra_mlp_units: [1024, 512]
+    new_input_tokenizer_units: [2048, 1024, 512]
+
+    space:
+      continuous:
+        mu_activation: None
+        sigma_activation: None
+        mu_init:
+          name: default
+        sigma_init:
+          name: const_initializer
+          val: -2.9
+        fixed_sigma: True
+        learn_sigma: False
+
+    mlp:
+      units: [2048, 1024, 512]
+      activation: relu
+      d2rl: False
+
+      initializer:
+        name: default
+      regularizer:
+        name: None
+
+    disc:
+      units: [1024, 512]
+      activation: relu
+
+      initializer:
+        name: default
+
+  load_checkpoint: False
+
+  config:
+    name: Humanoid
+    env_name: rlgpu
+    multi_gpu: False
+    ppo: True
+    mixed_precision: False
+    normalize_input: True # Pay attention to this! We still perform normalization in amp_agent, not in network.
+    normalize_value: True
+    reward_shaper:
+      scale_value: 1
+    normalize_advantage: True
+    gamma: 0.99
+    tau: 0.95
+    learning_rate: 2e-5
+    lr_schedule: constant
+    score_to_win: 20000
+    max_epochs: 1000000
+    save_best_after: 50
+    save_frequency: 100
+    save_intermediate: False
+    print_stats: True
+    grad_norm: 1.0
+    entropy_coef: 0.0
+    truncate_grads: False
+    ppo: True
+    e_clip: 0.2
+    horizon_length: 32
+    minibatch_size: 16384
+    mini_epochs: 6
+    critic_coef: 5
+    clip_value: False
+    seq_len: 4
+    bounds_loss_coef: 10
+    amp_obs_demo_buffer_size: 200000
+    amp_replay_buffer_size: 200000
+    amp_replay_keep_prob: 0.01
+    amp_batch_size: 512
+    amp_minibatch_size: 4096
+    disc_coef: 5
+    disc_logit_reg: 0.01
+    disc_grad_penalty: 5
+    disc_reward_scale: 2
+    disc_weight_decay: 0.0001
+    normalize_amp_input: True
+    enable_eps_greedy: False # for training a better disc (May 8, 2024: disable it)
+
+    task_reward_w: 0.5
+    disc_reward_w: 0.5
+
+    reg_loss_coef: 0.01 # limit compensate composer
+    reg_loss_enabled: False
