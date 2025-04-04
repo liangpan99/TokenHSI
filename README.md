@@ -330,6 +330,91 @@ Please note that it also relies on external libraries and datasets, each of whic
 
   ```
 
+
+- 
+```
+/buildAgent/work/99bede84aa0a52c2/source/gpucommon/include/PxgCudaUtils.h (80) : internal error : SynchronizeStreams failed
+
+
+/buildAgent/work/99bede84aa0a52c2/source/physx/src/NpScene.cpp (3509) : internal error : PhysX Internal CUDA error. Simulation can not continue!
+
+PxgCudaDeviceMemoryAllocator fail to allocate memory 675282944 bytes!! Result = 700
+/buildAgent/work/99bede84aa0a52c2/source/gpunarrowphase/src/PxgNarrowphaseCore.cpp (11310) : internal error : GPU compressContactStage1 fail to launch kernel stage 1!!
+
+
+/buildAgent/work/99bede84aa0a52c2/source/gpunarrowphase/src/PxgNarrowphaseCore.cpp (11347) : internal error : GPU compressContactStage2 fail to launch kernel stage 1!!
+
+
+[Error] [carb.gym.plugin] Gym cuda error: an illegal memory access was encountered: ../../../source/plugins/carb/gym/impl/Gym/GymPhysX.cpp: 4202
+[Error] [carb.gym.plugin] Gym cuda error: an illegal memory access was encountered: ../../../source/plugins/carb/gym/impl/Gym/GymPhysX.cpp: 4210
+[Error] [carb.gym.plugin] Gym cuda error: an illegal memory access was encountered: ../../../source/plugins/carb/gym/impl/Gym/GymPhysX.cpp: 3480
+[Error] [carb.gym.plugin] Gym cuda error: an illegal memory access was encountered: ../../../source/plugins/carb/gym/impl/Gym/GymPhysX.cpp: 3535
+[Error] [carb.gym.plugin] Gym cuda error: an illegal memory access was encountered: ../../../source/plugins/carb/gym/impl/Gym/GymPhysX.cpp: 5993
+[Error] [carb.gym.plugin] Gym cuda error: no kernel image is available for execution on the device: ../../../source/plugins/carb/gym/impl/Gym/GymPhysXCuda.cu: 937
+[Error] [carb.gym.plugin] Failed to fill root state tensor
+Traceback (most recent call last):
+  File "./tokenhsi/run.py", line 229, in <module>
+    main()
+  File "./tokenhsi/run.py", line 224, in main
+    runner.run(vargs)
+  File "/home/leyang/anaconda3/envs/tokenhsi/lib/python3.8/site-packages/rl_games/torch_runner.py", line 144, in run
+    player.run()
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/learning/amp_players.py", line 160, in run
+    super().run()
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/learning/common_player.py", line 101, in run
+    obs_dict, r, done, info =  self.env_step(self.env, action)
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/learning/common_player.py", line 171, in env_step
+    obs, rewards, dones, infos = env.step(actions)
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/vec_task.py", line 129, in step
+    self.task.step(actions_tensor)
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/base_task.py", line 155, in step
+    self._physics_step()
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/base_task.py", line 543, in _physics_step
+    self.render()
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/basic_interaction_skills/humanoid_carry.py", line 504, in render
+    super().render(sync_frame_time)
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/humanoid.py", line 539, in render
+    self._update_camera()
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/humanoid.py", line 589, in _update_camera
+    char_root_pos = self._humanoid_root_states[0, 0:3].cpu().numpy()
+RuntimeError: CUDA error: an illegal memory access was encountered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+```
+- `CUDA_LAUNCH_BLOCKING=1 python`
+```
+Traceback (most recent call last):
+  File "./tokenhsi/run.py", line 229, in <module>
+    main()
+  File "./tokenhsi/run.py", line 224, in main
+    runner.run(vargs)
+  File "/home/leyang/anaconda3/envs/tokenhsi/lib/python3.8/site-packages/rl_games/torch_runner.py", line 144, in run
+    player.run()
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/learning/amp_players.py", line 160, in run
+    super().run()
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/learning/common_player.py", line 101, in run
+    obs_dict, r, done, info =  self.env_step(self.env, action)
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/learning/common_player.py", line 171, in env_step
+    obs, rewards, dones, infos = env.step(actions)
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/vec_task.py", line 129, in step
+    self.task.step(actions_tensor)
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/base_task.py", line 155, in step
+    self._physics_step()
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/base_task.py", line 543, in _physics_step
+    self.render()
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/basic_interaction_skills/humanoid_carry.py", line 504, in render
+    super().render(sync_frame_time)
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/humanoid.py", line 539, in render
+    self._update_camera()
+  File "/home/leyang/Documents/TokenHSI/tokenhsi/env/tasks/humanoid.py", line 589, in _update_camera
+    char_root_pos = self._humanoid_root_states[0, 0:3].cpu().numpy()
+RuntimeError: CUDA error: an illegal memory access was encountered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+```
+
 #### On slurm
 - `ImportError: libpython3.8.so.1.0: cannot open shared object file: No such file or directory`
   - Fixed: just run in conda `export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$LD_LIBRARY_PATH"`
