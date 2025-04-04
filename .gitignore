@@ -162,3 +162,4 @@ cython_debug/
 /tokenhsi/data/dataset_amass_climb/motions/
 /tokenhsi/data/dataset_amass_climb/smpl_params/
 /tokenhsi/data/dataset_amass_climb/objects/
+joint_states.csv
