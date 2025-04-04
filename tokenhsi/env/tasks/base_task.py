@@ -13,9 +13,12 @@ import random
 
 from isaacgym import gymapi
 from isaacgym.gymutil import get_property_setter_map, get_property_getter_map, get_default_setter_args, apply_random_samples, check_buckets, generate_random_samples
+from isaacgym import gymtorch
 
 import numpy as np
 import torch
+from PIL import Image as im
+import csv
 
 
 # Base class for RL tasks
@@ -32,6 +35,7 @@ class BaseTask():
             self.device = "cuda" + ":" + str(self.device_id)
 
         self.headless = cfg["headless"]
+        self.camera_handles = []
 
         # double check!
         self.graphics_device_id = self.device_id
@@ -85,9 +89,11 @@ class BaseTask():
 
         # save imgs
         from datetime import datetime as dt
+        self.record_headless = cfg["args"].record_headless
         self.save_video = False
         self.save_video_dir = os.path.join(cfg["args"].output_path, "imgs/{}/".format(dt.now().strftime("%Y-%m-%d_%H-%M-%S")))
         self.save_img_count = 0
+        self.frame_count = -1
 
         # whether show lines
         self._show_lines_flag = True
@@ -173,6 +179,7 @@ class BaseTask():
         return self.states_buf
 
     def render(self, sync_frame_time=False):
+        self.frame_count += 1
         if self.viewer:
             # check for window closed
             if self.gym.query_viewer_has_closed(self.viewer):
@@ -202,6 +209,97 @@ class BaseTask():
                 self.gym.draw_viewer(self.viewer, self.sim, True)
             else:
                 self.gym.poll_viewer_events(self.viewer)
+        else:  # headless render save
+            if self.headless == False:
+                print("Viewer not created, cannot render, also not headless")
+                return
+            if not self.record_headless:  # no need to render
+                return
+
+            if self.device != 'cpu':  # todo: change, method mianly for CPU
+                self.gym.fetch_results(self.sim, True)
+                self.gym.step_graphics(self.sim)
+                self.gym.render_all_camera_sensors(self.sim)
+
+                if len(self.camera_handles) == 0:
+                    print("Camera handles not initialized, call create_sim in humanoid.py first to initialize")
+                    return
+
+
+                if np.mod(self.frame_count, 5) == 0:
+
+                    csv_file = 'joint_states.csv'
+                    # append a line to the csv file
+                    state_tensor = self.gym.acquire_rigid_body_state_tensor(self.sim)
+
+                    # Wrap it in a PyTorch tensor for easier manipulation and indexing
+                    rb_states = gymtorch.wrap_tensor(state_tensor)
+                    with open(csv_file, 'a', newline='') as f:
+                        writer = csv.writer(f)
+                        # write rb_states flat as csv row
+                        data = rb_states.flatten().cpu().numpy()
+                        writer.writerow(data.tolist())
+
+
+                    for i in range(1):  #range(self.num_envs): # lets only print first 2 to see
+                        for j in range(len(self.camera_handles[0])):
+                            # The gym utility to write images to disk is recommended only for RGB images.
+                            num = str(self.save_img_count)
+                            self.save_img_count += 1
+                            num = '0' * (6 - len(num)) + num
+                            rgb_filename = os.path.join(self.save_video_dir, "rgb_env%d_cam%d" % (i, j), f"frame_{num}.png")
+                            # print(f"env {i}, cam {j}, rgb_filename {rgb_filename}")
+
+
+
+                            # # print(f"{self.gym.acquire_rigid_body_state_tensor(self.sim).cpu().numpy()}")
+                            # print(f"{self.gym.get_actor_rigid_body_states(self.envs[i], 0, gymapi.STATE_POS)}")
+
+                            # # Acquire the raw rigid body state tensor from the simulation
+                            # state_tensor = self.gym.acquire_rigid_body_state_tensor(self.sim)
+
+                            # # Wrap it in a PyTorch tensor for easier manipulation and indexing
+                            # rb_states = gymtorch.wrap_tensor(state_tensor)
+
+                            # # Now you can use rb_states (a PyTorch tensor) to access state data.
+                            # print("Rigid body states shape:", rb_states.shape)
+                            # print("Rigid body states:", rb_states)
+
+                            
+                            # joint_dict = self.gym.get_actor_rigid_body_dict(self.envs[i], 0)
+                            # print("Joint dictionary:", joint_dict)
+                            
+                            self.gym.write_camera_image_to_file(self.sim, self.envs[i], self.camera_handles[i][j], gymapi.IMAGE_COLOR, rgb_filename)
+                            img = self.gym.get_camera_image(self.sim, self.envs[i], self.camera_handles[i][j], gymapi.IMAGE_COLOR)
+                            # print(img.shape)
+                            if False:  # for depth images
+                                # Retrieve image data directly. Use this for Depth, Segmentation, and Optical Flow images
+                                # Here we retrieve a depth image, normalize it to be visible in an
+                                # output image and then write it to disk using Pillow
+                                depth_image = self.gym.get_camera_image(self.sim, self.envs[i], self.camera_handles[i][j], gymapi.IMAGE_DEPTH)
+
+                                # -inf implies no depth value, set it to zero. output will be black.
+                                depth_image[depth_image == -np.inf] = 0
+
+                                # clamp depth image to 10 meters to make output image human friendly
+                                depth_image[depth_image < -10] = -10
+
+                                # flip the direction so near-objects are light and far objects are dark
+                                normalized_depth = -255.0*(depth_image/np.min(depth_image + 1e-4))
+
+                                # Convert to a pillow image and write it to disk
+                                normalized_depth_image = im.fromarray(normalized_depth.astype(np.uint8), mode="L")
+                                normalized_depth_image.save("graphics_images/depth_env%d_cam%d_frame%d.jpg" % (i, j, self.save_img_count))
+
+            else:  # GPU
+                pass
+                self.gym.fetch_results(self.sim, True)
+
+                # refresh state data in the tensor
+                self.gym.refresh_rigid_body_state_tensor(self.sim)
+
+                gym.step_graphics(sim)
+
 
     def get_actor_params_info(self, dr_params, env):
         """Returns a flat array of actor params, their names and ranges."""

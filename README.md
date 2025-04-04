@@ -85,6 +85,9 @@ Follow the following instructions:
     # add your conda env path to ~/.bashrc
     conda env list
     export LD_LIBRARY_PATH="your_conda_env_path/lib:$LD_LIBRARY_PATH"
+
+    # e.g., in my Slurm sbatch job, add:
+    export LD_LIBRARY_PATH="/home/wenleyan/.conda/envs/tokenhsi/lib:$LD_LIBRARY_PATH"
     ```
 
 3. Install pytorch3d (optional, if you want to run the long-horizon task completion demo)
@@ -297,3 +300,82 @@ Please note that it also relies on external libraries and datasets, each of whic
     </a>
 <p>
 
+
+
+# Notes:
+
+## Goal:
+- Carry task + specify parameters
+  - Start/end location
+  - Size
+  - Weight
+  - Shape
+  - Obstacles in env
+
+- Make it ergo correct
+  - Ergo loss
+
+
+
+## Debug notes
+
+### 2025-04-03
+
+#### On Linux
+- 
+  ```no kernel image
+  reward: 0.27504950761795044 steps: 2.0
+  [Error] [carb.gym.plugin] Gym cuda error: no kernel image is available for execution on the device: ../../../source/plugins/carb/gym/impl/Gym/GymPhysXCuda.cu: 948
+  [Error] [carb.gym.plugin] Gym cuda error: no kernel image is available for execution on the device: ../../../source/plugins/carb/gym/impl/Gym/GymPhysXCuda.cu: 1001
+
+  ```
+
+#### On slurm
+- `ImportError: libpython3.8.so.1.0: cannot open shared object file: No such file or directory`
+  - Fixed: just run in conda `export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$LD_LIBRARY_PATH"`
+
+- libmem_filesys.so
+  ```
+  [Error] [carb] [Plugin: libcarb.gym.plugin.so] Could not load the dynamic library from /home/wenleyan/projects/isaacgym/python/isaacgym/_bindings/linux-x86_64/libcarb.gym.plugin.so. Error: libmem_filesys.so: cannot open shared object file: No such file or directory
+  Using /home/wenleyan/.cache/torch_extensions/py38_cu118 as PyTorch extensions root...
+  ...
+  [Error] [carb] Failed to acquire interface: [carb::gym::Gym v0.1], by client: carb.gym.python.gym_38 (plugin name: (null))
+  Traceback (most recent call last):
+  ...
+  RuntimeError: Failed to acquire interface: carb::gym::Gym (pluginName: nullptr)
+  ```
+  - https://github.com/isaac-sim/IsaacGymEnvs/issues/62#issuecomment-1722505385
+  - this works
+  - `export LD_LIBRARY_PATH="/home/wenleyan/projects/isaacgym/python/isaacgym/_bindings/linux-x86_64:$LD_LIBRARY_PATH"`
+
+- seg fault
+  ```
+  Using /home/wenleyan/.cache/torch_extensions/py38_cu118 as PyTorch extensions root...
+  Emitting ninja build file /home/wenleyan/.cache/torch_extensions/py38_cu118/gymtorch/build.ninja...
+  Building extension module gymtorch...
+  Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+  Loading extension module gymtorch...
+  2025-04-03 15:43:34,676 - INFO - logger - logger initialized
+  /var/spool/slurmd.spool/job23440867/slurm_script: line 33: 2704004 Segmentation fault      (core dumped) python ./tokenhsi/run.py --task HumanoidCarry --cfg_train tokenhsi/data/cfg/train/rlg/amp_imitation_task.yaml --cfg_env tokenhsi/data/cfg/basic_interaction_skills/amp_humanoid_carry.yaml --motion_file tokenhsi/data/dataset_carry/dataset_carry.yaml --checkpoint output/single_task/ckpt_carry.pth --test --num_envs 16
+  ```
+  - Using remote desktop GUI w. `spgpu` does not help, same seg fault for this & isaac gym examples
+  - Changing partition from `gpu` or `spgpu` to `gpu_mig40` seem to help, lead to new error `[Error] [carb.gym.plugin] Failed to create Nvf device in createNvfGraphics. Please make sure Vulkan is correctly installed.`
+  - Others says it should be headless: https://github.com/isaac-sim/IsaacGymEnvs/issues/52#issuecomment-2187660362
+    - add `--headless` in python
+    - works for `spgpu`
+    - also `self.graphics_device_id` need to stay `-1` in `base_task.py` for `create_sim`. https://forums.developer.nvidia.com/t/not-sure-what-to-set-for-graphics-device-id/193625/2
+
+
+- Runs okay wihout error, but no output anywhere
+  - There is a `--record` arg input, but dont seem to be used in this repo or do anything, maybe passed into packages via `**kargs` but can't find
+  - Make it render and save even if headless, check out example py files mentioned here https://forums.developer.nvidia.com/t/camera-example-and-headless-mode/178901
+  - `tokenhsi/env/tasks/base_task.py` --> `render` modify to save
+    - need camera handle locations
+  - also for `render` in the child classes, `humanoid.py`, then `humanoid-xxxtask.py`
+
+- `SetCameraLocation: Error: could not find camera with handle -1 in environment 15`
+    - https://forums.developer.nvidia.com/t/why-it-returns-1-when-i-tried-to-create-camera-sensor/218083/3
+
+
+-gpu render instead of cpu
+- try mig

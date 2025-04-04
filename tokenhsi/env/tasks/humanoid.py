@@ -131,6 +131,7 @@ class Humanoid(BaseTask):
         contact_bodies = self.cfg["env"]["contactBodies"]
         self._key_body_ids = self._build_key_body_ids_tensor(key_bodies)
         self._contact_body_ids = self._build_contact_body_ids_tensor(contact_bodies)
+
         
         if self.viewer != None:
             self._init_camera()
@@ -154,6 +155,7 @@ class Humanoid(BaseTask):
 
         self._create_ground_plane()
         self._create_envs(self.num_envs, self.cfg["env"]['envSpacing'], int(np.sqrt(self.num_envs)))
+        self.camera_handles = self.get_camera_handels()
         return
 
     def reset(self, env_ids=None):
@@ -339,6 +341,54 @@ class Humanoid(BaseTask):
         self.humanoid_handles.append(humanoid_handle)
 
         return
+    
+    def get_camera_handels(self):
+
+        # main code from isaacgym/python/examples/graphics.py
+        camera_handles = [[]]
+        for i in range(self.num_envs):
+            camera_handles.append([])
+            camera_properties = gymapi.CameraProperties()
+            camera_properties.width = 360
+            camera_properties.height = 240
+            camera_properties.enable_tensors = True
+            # Set a fixed position and look-target for the first camera
+            # position and target location are in the coordinate frame of the environment
+            print(f"h1 camera_properties: {camera_properties}, width: {camera_properties.width}, height: {camera_properties.height}")
+            h1 = self.gym.create_camera_sensor(self.envs[i], camera_properties)
+            print(h1)
+            camera_position = gymapi.Vec3(1.5, 1, 1.5)
+            camera_target = gymapi.Vec3(0, 0, 0)
+            self.gym.set_camera_location(h1, self.envs[i], camera_position, camera_target)
+            camera_handles[i].append(h1)
+
+            # Attach camera 2 to the first rigid body of the first actor in the environment, which
+            # is the ball. The camera offset is relative to the position of the actor, the camera_rotation
+            # is relative to the global coordinate frame, not the actor's rotation
+            # In even envs cameras are will be following rigid body position and orientation,
+            # in odd env only the position
+            h2 = self.gym.create_camera_sensor(self.envs[i], camera_properties)
+            camera_offset = gymapi.Vec3(1, 0, -1)
+            camera_rotation = gymapi.Quat.from_axis_angle(gymapi.Vec3(0, 1, 0), np.deg2rad(135))
+            actor_handle = self.gym.get_actor_handle(self.envs[i], 0)
+            body_handle = self.gym.get_actor_rigid_body_handle(self.envs[i], actor_handle, 0)
+
+            self.gym.attach_camera_to_body(h2, self.envs[i], body_handle, gymapi.Transform(camera_offset, camera_rotation), gymapi.FOLLOW_TRANSFORM)
+            camera_handles[i].append(h2)
+
+            # h3, fixed camera from isaacgym/python/examples/interop_torch.py
+            print(f"h3 camera_properties: {camera_properties}, width: {camera_properties.width}, height: {camera_properties.height}")
+            h3 = self.gym.create_camera_sensor(self.envs[i], camera_properties)
+            print(h3)
+            camera_position = gymapi.Vec3(5, 1, 0)
+            camera_target = gymapi.Vec3(0, 1, 0)
+            self.gym.set_camera_location(h3, self.envs[i], camera_position, camera_target)
+            camera_handles[i].append(h3)
+
+
+        print(camera_handles)
+        return camera_handles
+
 
     def _build_pd_action_offset_scale(self):
         num_joints = len(self._dof_offsets) - 1

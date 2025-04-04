@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+output_slurm/
 # C extensions
 *.so
 

@@ -290,6 +290,8 @@ def get_args(benchmark=False):
             "help": ""},
         {"name": "--record", "action": "store_true", "default": False,
             "help": ""},
+        {"name": "--record_headless", "action": "store_true", "default": False,
+            "help": "wen custom"},
         
         ]
 
