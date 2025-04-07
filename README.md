@@ -447,11 +447,20 @@ Please note that it also relies on external libraries and datasets, each of whic
   /var/spool/slurmd.spool/job23440867/slurm_script: line 33: 2704004 Segmentation fault      (core dumped) python ./tokenhsi/run.py --task HumanoidCarry --cfg_train tokenhsi/data/cfg/train/rlg/amp_imitation_task.yaml --cfg_env tokenhsi/data/cfg/basic_interaction_skills/amp_humanoid_carry.yaml --motion_file tokenhsi/data/dataset_carry/dataset_carry.yaml --checkpoint output/single_task/ckpt_carry.pth --test --num_envs 16
   ```
   - Using remote desktop GUI w. `spgpu` does not help, same seg fault for this & isaac gym examples
-  - Changing partition from `gpu` or `spgpu` to `gpu_mig40` seem to help, lead to new error `[Error] [carb.gym.plugin] Failed to create Nvf device in createNvfGraphics. Please make sure Vulkan is correctly installed.`
+  - Changing partition from `gpu` or `spgpu` to `gpu_mig40` seem to help, lead to new Vulkan error `[Error] [carb.gym.plugin] Failed to create Nvf device in createNvfGraphics. Please make sure Vulkan is correctly installed.`
   - Others says it should be headless: https://github.com/isaac-sim/IsaacGymEnvs/issues/52#issuecomment-2187660362
     - add `--headless` in python
     - works for `spgpu`
     - also `self.graphics_device_id` need to stay `-1` in `base_task.py` for `create_sim`. https://forums.developer.nvidia.com/t/not-sure-what-to-set-for-graphics-device-id/193625/2
+  - Info from Brock: `spgpu` and `vis` partition have Vulkan dependency, check w. `vulkaninfo` and `vkcube`. You can use `vis` from remote desktop only
+  - Tried: 
+    - [x] headless: 
+      - [x] `spgpu` --> segfault
+      - [x] `gpu` --> segfault
+      - [x] `gpu_mig40` --> Vulkan Error: 
+    - [x] remote desktop:
+      - [x] `spgpu` --> segfault
+      - [x] `vis` --> segfault
 
 
 - Runs okay wihout error, but no output anywhere
@@ -469,4 +478,3 @@ Please note that it also relies on external libraries and datasets, each of whic
 
 
 -gpu render instead of cpu
-
